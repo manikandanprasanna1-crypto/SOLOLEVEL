@@ -34,7 +34,9 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--text-primary);
+  height: 100vh;
   min-height: 100vh;
+  width: 100vw;
   overflow-x: hidden;
   position: relative;
 }
@@ -61,7 +63,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .app-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar */
@@ -395,16 +399,6 @@ input:focus, select:focus {
 
 .notification-enter {
   animation: slideIn 0.3s ease-out forwards;
-}
-
-/* Gear Card Special */
-.gear-card-acquired {
-  border-color: var(--success-color) !important;
-  background-color: rgba(0, 255, 136, 0.05) !important;
-}
-
-.gear-card-acquired::before {
-  background: linear-gradient(90deg, transparent, var(--success-color), transparent) !important;
 }
 
 /* Scrollbar Styling */
