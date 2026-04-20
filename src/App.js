@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { GameProvider, useGameInfo } from './context/GameContext';
-import { LayoutDashboard, Swords, Dumbbell, BookOpen } from 'lucide-react';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { LayoutDashboard, Swords, Dumbbell, BookOpen, LogOut } from 'lucide-react';
 
-import Dashboard from './components/Dashboard';
-import Quests from './components/Quests';
+import Dashboard from './components/dashboard';
+import Quests from './components/Quest';
 import Training from './components/Training';
 import Manual from './components/Manual';
-import Notifications from './components/Notifications';
+import Notifications from './components/Notification';
+import Auth from './components/Auth';
 
 const MainLayout = () => {
   const { sysMsg, setSysMsg } = useGameInfo();
+  const { logout, user } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const renderContent = () => {
@@ -59,6 +62,16 @@ const MainLayout = () => {
           <span>Manual</span>
         </div>
 
+        <div style={{ marginTop: 'auto', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
+          <div className="nav-item" onClick={logout} style={{ color: 'var(--danger-color)' }}>
+            <LogOut size={20} />
+            <span>Logout</span>
+          </div>
+          <div style={{ padding: '0 1rem', fontSize: '0.65rem', color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
+            ID: <span style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{user?.username}</span>
+          </div>
+        </div>
+
       </aside>
       
       <main className="main-content" style={{ position: 'relative' }}>
@@ -78,11 +91,21 @@ const MainLayout = () => {
   );
 };
 
+const AppContent = () => {
+    const { user } = useAuth();
+    if (!user) return <Auth />;
+    return (
+        <GameProvider>
+            <MainLayout />
+        </GameProvider>
+    );
+};
+
 function App() {
   return (
-    <GameProvider>
-      <MainLayout />
-    </GameProvider>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
